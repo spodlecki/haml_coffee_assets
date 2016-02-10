@@ -8,7 +8,10 @@ module HamlCoffeeAssets
     # in it would normally be a fallback for all formats.
     #
     class Resolver < ::ActionView::FileSystemResolver
-      def find_templates(name, prefix, partial, details)
+      # (Needed to fork and update to hamle 1.16.1, internmatch is not updated)
+      # https://github.com/internmatch/haml_coffee_assets/commit/202395f43bacd805ae9b17ced067810d54204426
+      def find_templates(*args)
+        details = args[3]
         if details[:formats].include?(:html)
           clear_cache if ::Rails.env == "development"
           super
